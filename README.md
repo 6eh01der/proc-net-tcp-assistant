@@ -6,7 +6,7 @@ Add ipv4 addresses to `ipFilters` to filter out matching entries. These addresse
 
 `ProcNetTcp.bat` and `adb.exe` are just examples. Instead of `ProcNetTcp.bat` and `adb.exe` there may be any Powershell or bash script, wsl.exe or ssh inside them - anything that will execute `cat /proc/net/tcp`.
 
-It's able to run `ProcNetTcpConverter.exe` in Linux by [Mono](https://www.mono-project.com/) for example.
+It's able to run `ProcNetTcpConverter.exe` in Linux by [Mono](https://www.mono-project.com/) for example (```mono ProcNetTcpConverter.exe```).
 
 # About usage
 
@@ -19,3 +19,19 @@ ProcNetTcpConverter.exe ProcNetTcp.bat "" 500 0
 `""` - no IP Filter (remote ip addresses separated by space that should be excluded from output)
 `500` - `interval`, milliseconds between ProcNetTcp.bat executions
 `0` - zero value for `count` so `ProcNetTcpConverter.exe` will run endlessly
+
+# Compilation
+
+In Windows download and install [Visual Studio Build Tools 2022](https://learn.microsoft.com/ru-ru/visualstudio/releases/2022/release-history#release-dates-and-build-numbers), open `Developer Command Prompt for VS 2022` (or `Developer Powershell for VS 2022`), go into the directory with `ProcNetTcpConverter.cs` and run:
+
+```cmd
+csc.exe ProcNetTcpConverter.cs
+```
+
+Maybe [VS Build Tools 2026](https://visualstudio.microsoft.com/ru/downloads/#build-tools-for-visual-studio-2026) will ado the job too.
+
+In Linux, for example Ubuntu:
+```bash
+apt install mono-complete
+mcs ProcNetTcpConverter.cs
+```
