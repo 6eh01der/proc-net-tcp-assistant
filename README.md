@@ -6,7 +6,7 @@ Add ipv4 addresses to `ipFilters` to filter out matching entries. These addresse
 
 `ProcNetTcp.bat` and `adb.exe` are just examples. Instead of `ProcNetTcp.bat` and `adb.exe` there may be any Powershell or bash script, wsl.exe or ssh inside them - anything that will execute `cat /proc/net/tcp`.
 
-It's able to run `ProcNetTcpConverter.exe` in Linux by [Mono](https://www.mono-project.com/) for example (```mono ProcNetTcpConverter.exe```).
+To run ProcNetTcpConverter.exe on Linux, you can use, for example, the [Mono project](https://www.mono-project.com/) (```mono ProcNetTcpConverter.exe```).
 
 # About usage
 
