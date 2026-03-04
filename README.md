@@ -1,4 +1,4 @@
-# proc-net-tcp-assistant - original version https://github.com/RemyRM/proc-net-tcp-assistant
+# proc-net-tcp-assistant (original version [here](https://github.com/RemyRM/proc-net-tcp-assistant))
 
 `ProcNetTcpConverter.exe` will take the output of any script that runs `cat /proc/net/tcp` and convert the standard hex notation of ipv4 addresses:ports to decimal for easier readability at a glance. It will also convert the status code to its string value.
 
