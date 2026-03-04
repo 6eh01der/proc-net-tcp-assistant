@@ -10,7 +10,9 @@ class ProcNetTcpConverter
 {
     //These values can either be hardcoded, or left empty. If left empty the programm will ask for the user to input manually.
     static string filePath = @"";
-    internal static string[] remoteIPFilter = new string[] { "" };
+    internal static string[] remoteIPFilter = new string[] {};
+    internal static int interval = new int();
+    internal static int count = new int();
 
     static readonly string header = string.Format("{0, 5} {1, 20} {2, 20} {3, 12} {4, 5} {5} {6} {7, 5} {8, 10} {9, 7} {10, 8} {11}", "sl", "local_address", "rem_address", "state", "tx_queue", "rx_queue", "tr", "tm->when", "retrnsmt", "uid", "timeout", "inode");
     static readonly string ipRegex = @"[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}";
@@ -25,32 +27,92 @@ class ProcNetTcpConverter
 
                 if (filePath.Equals(""))
                 {
-                    Console.WriteLine("Please specify file path");
-                    filePath = Console.ReadLine();
+                    if (args.Length == 0)
+                    {
+                        Console.WriteLine("Please specify file path");
+                        filePath = Console.ReadLine();
+                    }
+                    else if (!args[0].Equals(""))
+                    {
+                        filePath = args[0];
+                    }
                 }
 
                 if (remoteIPFilter.Length == 0)
                 {
-                    Console.WriteLine("IPv4 Filters (seperated by space, leave blank if none):");
-                    remoteIPFilter = Console.ReadLine().Split(' ');
+                    if (args.Length <= 1)
+                    {
+                        Console.WriteLine("IPv4 Filters (seperated by space, leave blank if none):");
+                        remoteIPFilter = Console.ReadLine().Split(' ');
+                    }
+                    else
+                    {
+                        remoteIPFilter = args[1].Split(' ');
+                    }
                     if (remoteIPFilter[0] != "")
                     {
                         IPCheck();
                     }
                 }
 
-                Console.WriteLine("Press escape or ^c to pause");
-                do
-                {
-                    while (!Console.KeyAvailable)
-                    {
-                        RunBatch();
-                        Thread.Sleep(100);
-                    }
-                } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 
-                Console.WriteLine("\nPress any key to resume");
-                Console.ReadLine();
+                if (args.Length <= 2)
+                {
+                    Console.WriteLine("Interval time (leave blank for default value - 0):");
+                    string consoleInterval = Console.ReadLine();
+                    if (!String.IsNullOrEmpty(consoleInterval))
+                    {
+                        interval = Convert.ToInt32(consoleInterval);
+                    }
+                }
+                else
+                {
+                    interval = Convert.ToInt32(args[2]);
+                }
+
+                if (args.Length <= 3)
+                {
+                    Console.WriteLine("Count (leave blank for default value - 0):");
+                    string consoleCount = Console.ReadLine();
+                    if (!String.IsNullOrEmpty(consoleCount))
+                    {
+                        count = Convert.ToInt32(consoleCount);
+                    }
+                }
+                else
+                {
+                    count = Convert.ToInt32(args[3]);
+                }
+
+                Console.WriteLine("Press escape to pause or ^c to interrupt");
+                if (count > 0)
+                {
+                    int i = 0;
+                        while (i < count)
+                        {
+                            RunScript();
+                            Thread.Sleep(interval);
+                            i++;
+                            if (i >= count)
+                            {
+                                System.Environment.Exit(0);
+                            }
+                        }
+                }
+                else
+                {
+                    do
+                    {
+                        while (!Console.KeyAvailable)
+                        {
+                            RunScript();
+                            Thread.Sleep(interval);
+                        }
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+
+                    Console.WriteLine("\nPress any key to resume");
+                    Console.ReadLine();
+                }
             }
             catch (Exception e)
             {
@@ -82,9 +144,9 @@ class ProcNetTcpConverter
     }
 
     /// <summary>
-    /// Run a batch script that checks for all open TCP connections on a connected device.
+    /// Run a script that checks for all open TCP connections on a connected device.
     /// </summary>
-    static void RunBatch()
+    static void RunScript()
     {
         var process = new Process
         {
