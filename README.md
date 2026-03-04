@@ -28,7 +28,7 @@ In Windows download and install [Visual Studio Build Tools 2022](https://learn.m
 csc.exe ProcNetTcpConverter.cs
 ```
 
-Maybe [VS Build Tools 2026](https://visualstudio.microsoft.com/ru/downloads/#build-tools-for-visual-studio-2026) will ado the job too.
+Maybe [VS Build Tools 2026](https://visualstudio.microsoft.com/ru/downloads/#build-tools-for-visual-studio-2026) will do the job too.
 
 In Linux, for example Ubuntu:
 ```bash
