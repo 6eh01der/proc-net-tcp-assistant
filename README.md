@@ -10,7 +10,7 @@ To run ProcNetTcpConverter.exe on Linux, you can use, for example, the [Mono pro
 
 # About usage
 
-Besides the "classic mode" originally implemented by @RemyRM where `ProcNetTcpConverter.exe` asks user for a script path and an ipFilters, there was added `interval` and `count` parameters and ability to put them as positional arguments. For example:
+Besides the "classic mode" originally implemented by [@RemyRM](https://github.com/RemyRM) where `ProcNetTcpConverter.exe` asks user for a script path and an ipFilters, there was added `interval` and `count` parameters and ability to put them as positional arguments. For example:
 
 ```cmd
 ProcNetTcpConverter.exe ProcNetTcp.bat "" 500 0
